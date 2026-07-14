@@ -18,7 +18,15 @@ type Mutation{
     email:String!
   ):Student!
   @field(resolver:"App\\GraphQL\\Mutations\\CreateStudent")
-}
+  
+      updateStudent(
+        id:ID!
+        name:String!
+        email:String!
+      ):Student!
+      @field(resolver:"App\\GraphQL\\Mutations\\UpdateStudent")
+  }
+
 
 #This reads data
 type Student{
