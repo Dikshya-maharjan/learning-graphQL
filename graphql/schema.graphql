@@ -1,0 +1,28 @@
+
+#these are all operation that READ data 
+type Query{ 
+
+  hello:String! #field named hellp which return strings..! means it can never be null
+  @field(resolver:"App\\GraphQL\\Queries\\Hello")
+
+#@filed is directive which tells lighouse which php class should handle hello query
+students:[Student!]!
+#it means list itself cant be null and none of its items can be null
+  @field(resolver:"App\\GraphQL\\Queries\\Students")
+
+}
+#this creates data
+type Mutation{
+  createStudent(
+    name:String!
+    email:String!
+  ):Student!
+  @field(resolver:"App\\GraphQL\\Mutations\\CreateStudent")
+}
+
+#This reads data
+type Student{
+  id:ID!
+  name:String!
+  email:String!
+}
