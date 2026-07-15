@@ -25,6 +25,11 @@ type Mutation{
         email:String!
       ):Student!
       @field(resolver:"App\\GraphQL\\Mutations\\UpdateStudent")
+
+      deleteStudent(
+      id:ID!
+      ):Student!
+      @field(resolver:"App\\GraphQL\\Mutations\\DeleteStudent")
   }
 
 
