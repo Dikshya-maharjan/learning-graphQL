@@ -9,6 +9,13 @@ class Student extends Model
     //
     protected $fillable=[
         'name',
-        'email'
+        'email',
+        'course_id'
     ];
+    public function profile(){
+        return $this->hasOne(Profile::class);
+    }
+    public function course(){
+        return $this->belongsTo(Course::class);
+    }
 }
