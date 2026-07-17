@@ -1,17 +1,32 @@
-
 #these are all operation that READ data 
 type Query{ 
 
   hello:String! #field named hellp which return strings..! means it can never be null
   @field(resolver:"App\\GraphQL\\Queries\\Hello")
 
-#@filed is directive which tells lighouse which php class should handle hello query
+#@field is directive which tells lighouse which php class should handle hello query
 students:[Student!]!
+   
 #it means list itself cant be null and none of its items can be null
   @field(resolver:"App\\GraphQL\\Queries\\Students")
+students(
+    orderBy:_
+      @orderBy(columns:["id","name","email"])
+      ):[Student!]!
+      @all
+  student(id:ID!):Student
+  @field(resolver:"App\\GraphQL\\Queries\\StudentById")
+students: [Student!]!
+@paginate
+  #eq-equal
+ course(id: ID!): Course
+    @find
 
+  profile:Profile!
+  @field(resolver:"App\\GraphQL\\Queries\\Profile")
 }
-#this creates data
+
+#this creates data     
 type Mutation{
   createStudent(
     name:String!
@@ -30,12 +45,40 @@ type Mutation{
       id:ID!
       ):Student!
       @field(resolver:"App\\GraphQL\\Mutations\\DeleteStudent")
-  }
 
+
+      create(
+      name:String!
+      email:String!
+      ):Student @create(model:"App\\Models\\Student")
+
+      update(
+      id:ID!
+      name:String
+      email:String
+      ): Student @update(model:"App\\Models\\Student")
+      delete(
+      id:ID!):Student @delete(model:"App\\Models\\Student")
+    
+  }
+type Profile{
+  id:ID!
+  phone:String!
+  address:String!
+}
+
+type Course{
+id:ID!
+title:String!
+students:[Student!]!@hasMany
+}
 
 #This reads data
 type Student{
   id:ID!
   name:String!
   email:String!
+  address:String
+  profile:Profile @hasOne
+  course:Course @belongsTo
 }
